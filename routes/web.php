@@ -30,8 +30,11 @@ Route::get('/register', function () {
 Route::post('/login', [LoginController::class, 'login'])->name('login_user');
 Route::post('/register', [LoginController::class, 'register'])->name('user_register');
 
+Route::post('/sanctum/token', [LoginController::class, 'getSanctumToken'])->name('sanctum.token');
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/task-status-counts', [DashboardController::class, 'getTaskStatusCounts'])->name('dashboard.taskStatusCounts');
 
     Route::prefix('category')->name('category.')->group(function () {
         Route::get('/', [CategoryController::class, 'index'])->name('index');
@@ -59,6 +62,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/add', [TaskController::class, 'store'])->name('store');
         Route::delete('/delete/{id}', [TaskController::class, 'destroy'])->name('destroy');
         Route::put('/update/{id}', [TaskController::class, 'update'])->name('update');
+        Route::post('/{id}/comments', [TaskController::class, 'comments'])->name('comments');
+        Route::post('/{id}/status', [TaskController::class, 'updateStatus'])->name('updateStatus');
     });
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

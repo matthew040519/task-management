@@ -8,166 +8,35 @@
               </div>
               <div class="modal-body p-5 px-md-6">
                 <div class="row g-5">
-                  <div class="col-12 col-md-9">
-                    <div class="mb-4">
-                      <h3 class="fw-bolder lh-sm">{{ $task->task_name }}</h3>
-                      {{-- <p class="text-body-highlight fw-semibold mb-0">In list<a class="ms-1 fw-bold" href="#!">Review </a></p> --}}
-                    </div>
-                    <div class="d-flex align-items-center mb-4">
-                      <p class="text-body-highlight fw-700 mb-0 me-2">0%</p>
-                      <div class="progress flex-1">
-                        <div class="progress-bar rounded-3" role="progressbar" style="width: 0%"></div>
+                  <div class="col-12 col-md-12">
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                      <div>
+                        <h3 class="fw-bolder lh-sm mb-1">{{ $task->task_name }}</h3>
+                        {{-- <p class="text-body-highlight fw-semibold mb-0">In list<a class="ms-1 fw-bold" href="#!">Review </a></p> --}}
+                      </div>
+                      <div class="ms-3 text-end">
+                        {{-- <label for="status" class="form-label mb-1 text-body-secondary fw-semibold">Status</label> --}}
+                        <input type="text" class="d-none" id="status_task_id" value="{{ $task->id }}" />
+                        <select class="form-select status-select form-select-sm" data-task="{{ $task->id }}" name="status" id="changestatus">
+                          @foreach($status as $status1)
+                            <option value="{{ $status1->id }}" {{ $task->status_id == $status1->id ? 'selected' : '' }}>
+                              {{ $status1->status_name }}
+                            </option>
+                          @endforeach
+                        </select>
                       </div>
                     </div>
-                    <h6 class="text-body-secondary mb-2">Due date</h6>
-                    <div class="flatpickr-input-container flatpickr-input-sm w-50 mb-3">
-                      <input class="form-control form-control-sm ps-6 datetimepicker" id="datepicker" type="text"  /><span class="uil uil-calendar-alt flatpickr-icon text-body-tertiary mt-1"></span>
-                    </div>
+                      <h6 class="text-body-secondary mb-2">Due date</h6>
+                      <div class="flatpickr-input-container flatpickr-input-sm w-50 mb-3">
+                        <input class="form-control form-control-sm ps-6 datetimepicker" id="datepicker" type="text" value="{{ $task->due_date }}" /><span class="uil uil-calendar-alt flatpickr-icon text-body-tertiary mt-1"></span>
+                      </div>
+                    
                     <div class="mb-3">
                       <h6 class="text-body-secondary mb-2">Assignees</h6>
                       <div class="d-flex">
-                        <div class="dropdown"><a class="dropdown-toggle dropdown-caret-none d-inline-block" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                            <div class="avatar avatar-m  me-1">
-                              <img class="rounded-circle " src="../../assets/img/team/60.webp" alt="" />
-
-                            </div>
-                          </a>
-                          <div class="dropdown-menu avatar-dropdown-menu p-0 overflow-hidden" style="width: 320px;">
-                            <div class="position-relative">
-                              <div class="bg-holder z-n1" style="background-image:url(../../assets/img/bg/bg-32.png);background-size: auto;">
-                              </div>
-                              <!--/.bg-holder-->
-
-                              <div class="p-3">
-                                <div class="text-end">
-                                  <button class="btn p-0 me-2"><span class="fa-solid fa-user-plus text-white"></span></button>
-                                  <button class="btn p-0"><span class="fa-solid fa-ellipsis text-white"></span></button>
-                                </div>
-                                <div class="text-center">
-                                  <div class="avatar avatar-xl status-online position-relative me-2 me-sm-0 me-xl-2 mb-2"><img class="rounded-circle border border-light-subtle" src="../../assets/img/team/60.webp" alt="" /></div>
-                                  <h6 class="text-white">Emma Watson</h6>
-                                  <p class="text-light text-opacity-50 fw-semibold fs-10 mb-2">@tyrion222</p>
-                                  <div class="d-flex flex-center mb-3">
-                                    <h6 class="text-white mb-0">224 <span class="fw-normal text-light text-opacity-75">connections</span></h6><span class="fa-solid fa-circle text-body-tertiary mx-1" data-fa-transform="shrink-10 up-2"></span>
-                                    <h6 class="text-white mb-0">23 <span class="fw-normal text-light text-opacity-75">mutual</span></h6>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="bg-body-emphasis">
-                              <div class="p-3 border-bottom border-translucent">
-                                <div class="d-flex justify-content-between">
-                                  <div class="d-flex">
-                                    <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg me-2"><span class="fa-solid fa-phone"></span></button>
-                                    <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg me-2"><span class="fa-solid fa-message"></span></button>
-                                    <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg"><span class="fa-solid fa-video"></span></button>
-                                  </div>
-                                  <button class="btn btn-phoenix-primary"><span class="fa-solid fa-envelope me-2"></span>Send Email</button>
-                                </div>
-                              </div>
-                              <ul class="nav d-flex flex-column py-3 border-bottom">
-                                <li class="nav-item"><a class="nav-link px-3 d-flex flex-between-center" href="#!"> <span class="me-2 text-body d-inline-block" data-feather="clipboard"></span><span class="text-body-highlight flex-1">Assigned Projects</span><span class="fa-solid fa-chevron-right fs-11"></span></a></li>
-                                <li class="nav-item"><a class="nav-link px-3 d-flex flex-between-center" href="#!"> <span class="me-2 text-body" data-feather="pie-chart"></span><span class="text-body-highlight flex-1">View activiy</span><span class="fa-solid fa-chevron-right fs-11"></span></a></li>
-                              </ul>
-                            </div>
-                            <div class="p-3 d-flex justify-content-between"><a class="btn btn-link p-0 text-decoration-none" href="#!">Details </a><a class="btn btn-link p-0 text-decoration-none text-danger" href="#!">Unassign </a></div>
-                          </div>
-                        </div>
-                        <div class="dropdown"><a class="dropdown-toggle dropdown-caret-none d-inline-block" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                            <div class="avatar avatar-m  me-1">
-                              <img class="rounded-circle " src="../../assets/img/team/58.webp" alt="" />
-
-                            </div>
-                          </a>
-                          <div class="dropdown-menu avatar-dropdown-menu p-0 overflow-hidden" style="width: 320px;">
-                            <div class="position-relative">
-                              <div class="bg-holder z-n1" style="background-image:url(../../assets/img/bg/bg-32.png);background-size: auto;">
-                              </div>
-                              <!--/.bg-holder-->
-
-                              <div class="p-3">
-                                <div class="text-end">
-                                  <button class="btn p-0 me-2"><span class="fa-solid fa-user-plus text-white"></span></button>
-                                  <button class="btn p-0"><span class="fa-solid fa-ellipsis text-white"></span></button>
-                                </div>
-                                <div class="text-center">
-                                  <div class="avatar avatar-xl status-online position-relative me-2 me-sm-0 me-xl-2 mb-2"><img class="rounded-circle border border-light-subtle" src="../../assets/img/team/58.webp" alt="" /></div>
-                                  <h6 class="text-white">Igor Borvibson</h6>
-                                  <p class="text-light text-opacity-50 fw-semibold fs-10 mb-2">@tyrion222</p>
-                                  <div class="d-flex flex-center mb-3">
-                                    <h6 class="text-white mb-0">224 <span class="fw-normal text-light text-opacity-75">connections</span></h6><span class="fa-solid fa-circle text-body-tertiary mx-1" data-fa-transform="shrink-10 up-2"></span>
-                                    <h6 class="text-white mb-0">23 <span class="fw-normal text-light text-opacity-75">mutual</span></h6>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="bg-body-emphasis">
-                              <div class="p-3 border-bottom border-translucent">
-                                <div class="d-flex justify-content-between">
-                                  <div class="d-flex">
-                                    <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg me-2"><span class="fa-solid fa-phone"></span></button>
-                                    <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg me-2"><span class="fa-solid fa-message"></span></button>
-                                    <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg"><span class="fa-solid fa-video"></span></button>
-                                  </div>
-                                  <button class="btn btn-phoenix-primary"><span class="fa-solid fa-envelope me-2"></span>Send Email</button>
-                                </div>
-                              </div>
-                              <ul class="nav d-flex flex-column py-3 border-bottom">
-                                <li class="nav-item"><a class="nav-link px-3 d-flex flex-between-center" href="#!"> <span class="me-2 text-body d-inline-block" data-feather="clipboard"></span><span class="text-body-highlight flex-1">Assigned Projects</span><span class="fa-solid fa-chevron-right fs-11"></span></a></li>
-                                <li class="nav-item"><a class="nav-link px-3 d-flex flex-between-center" href="#!"> <span class="me-2 text-body" data-feather="pie-chart"></span><span class="text-body-highlight flex-1">View activiy</span><span class="fa-solid fa-chevron-right fs-11"></span></a></li>
-                              </ul>
-                            </div>
-                            <div class="p-3 d-flex justify-content-between"><a class="btn btn-link p-0 text-decoration-none" href="#!">Details </a><a class="btn btn-link p-0 text-decoration-none text-danger" href="#!">Unassign </a></div>
-                          </div>
-                        </div>
-                        <div class="dropdown"><a class="dropdown-toggle dropdown-caret-none d-inline-block" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                            <div class="avatar avatar-m  me-1">
-                              <img class="rounded-circle " src="../../assets/img/team/59.webp" alt="" />
-
-                            </div>
-                          </a>
-                          <div class="dropdown-menu avatar-dropdown-menu p-0 overflow-hidden" style="width: 320px;">
-                            <div class="position-relative">
-                              <div class="bg-holder z-n1" style="background-image:url(../../assets/img/bg/bg-32.png);background-size: auto;">
-                              </div>
-                              <!--/.bg-holder-->
-
-                              <div class="p-3">
-                                <div class="text-end">
-                                  <button class="btn p-0 me-2"><span class="fa-solid fa-user-plus text-white"></span></button>
-                                  <button class="btn p-0"><span class="fa-solid fa-ellipsis text-white"></span></button>
-                                </div>
-                                <div class="text-center">
-                                  <div class="avatar avatar-xl status-online position-relative me-2 me-sm-0 me-xl-2 mb-2"><img class="rounded-circle border border-light-subtle" src="../../assets/img/team/59.webp" alt="" /></div>
-                                  <h6 class="text-white">Katerina Karenin</h6>
-                                  <p class="text-light text-opacity-50 fw-semibold fs-10 mb-2">@tyrion222</p>
-                                  <div class="d-flex flex-center mb-3">
-                                    <h6 class="text-white mb-0">224 <span class="fw-normal text-light text-opacity-75">connections</span></h6><span class="fa-solid fa-circle text-body-tertiary mx-1" data-fa-transform="shrink-10 up-2"></span>
-                                    <h6 class="text-white mb-0">23 <span class="fw-normal text-light text-opacity-75">mutual</span></h6>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="bg-body-emphasis">
-                              <div class="p-3 border-bottom border-translucent">
-                                <div class="d-flex justify-content-between">
-                                  <div class="d-flex">
-                                    <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg me-2"><span class="fa-solid fa-phone"></span></button>
-                                    <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg me-2"><span class="fa-solid fa-message"></span></button>
-                                    <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg"><span class="fa-solid fa-video"></span></button>
-                                  </div>
-                                  <button class="btn btn-phoenix-primary"><span class="fa-solid fa-envelope me-2"></span>Send Email</button>
-                                </div>
-                              </div>
-                              <ul class="nav d-flex flex-column py-3 border-bottom">
-                                <li class="nav-item"><a class="nav-link px-3 d-flex flex-between-center" href="#!"> <span class="me-2 text-body d-inline-block" data-feather="clipboard"></span><span class="text-body-highlight flex-1">Assigned Projects</span><span class="fa-solid fa-chevron-right fs-11"></span></a></li>
-                                <li class="nav-item"><a class="nav-link px-3 d-flex flex-between-center" href="#!"> <span class="me-2 text-body" data-feather="pie-chart"></span><span class="text-body-highlight flex-1">View activiy</span><span class="fa-solid fa-chevron-right fs-11"></span></a></li>
-                              </ul>
-                            </div>
-                            <div class="p-3 d-flex justify-content-between"><a class="btn btn-link p-0 text-decoration-none" href="#!">Details </a><a class="btn btn-link p-0 text-decoration-none text-danger" href="#!">Unassign </a></div>
-                          </div>
-                        </div>
-                        <div class="dropdown"><a class="dropdown-toggle dropdown-caret-none d-inline-block" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                        @foreach ($task->assignTasks as $assignee)
+                        <div class="dropdown">
+                          <a class="dropdown-toggle dropdown-caret-none d-inline-block" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                             <div class="avatar avatar-m  me-1">
                               <img class="rounded-circle " src="../../assets/img/team/34.webp" alt="" />
 
@@ -186,40 +55,27 @@
                                 </div>
                                 <div class="text-center">
                                   <div class="avatar avatar-xl status-online position-relative me-2 me-sm-0 me-xl-2 mb-2"><img class="rounded-circle border border-light-subtle" src="../../assets/img/team/34.webp" alt="" /></div>
-                                  <h6 class="text-white">Jean Renoir</h6>
-                                  <p class="text-light text-opacity-50 fw-semibold fs-10 mb-2">@tyrion222</p>
-                                  <div class="d-flex flex-center mb-3">
+                                  <h6 class="text-white">{{ $assignee->assignto->name }}</h6>
+                                  <p class="text-light text-opacity-50 fw-semibold fs-10 mb-2">{{ $assignee->assignto->email }}</p>
+                                  {{-- <div class="d-flex flex-center mb-3">
                                     <h6 class="text-white mb-0">224 <span class="fw-normal text-light text-opacity-75">connections</span></h6><span class="fa-solid fa-circle text-body-tertiary mx-1" data-fa-transform="shrink-10 up-2"></span>
                                     <h6 class="text-white mb-0">23 <span class="fw-normal text-light text-opacity-75">mutual</span></h6>
-                                  </div>
+                                  </div> --}}
                                 </div>
                               </div>
-                            </div>
-                            <div class="bg-body-emphasis">
-                              <div class="p-3 border-bottom border-translucent">
-                                <div class="d-flex justify-content-between">
-                                  <div class="d-flex">
-                                    <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg me-2"><span class="fa-solid fa-phone"></span></button>
-                                    <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg me-2"><span class="fa-solid fa-message"></span></button>
-                                    <button class="btn btn-phoenix-secondary btn-icon btn-icon-lg"><span class="fa-solid fa-video"></span></button>
-                                  </div>
-                                  <button class="btn btn-phoenix-primary"><span class="fa-solid fa-envelope me-2"></span>Send Email</button>
-                                </div>
-                              </div>
-                              <ul class="nav d-flex flex-column py-3 border-bottom">
-                                <li class="nav-item"><a class="nav-link px-3 d-flex flex-between-center" href="#!"> <span class="me-2 text-body d-inline-block" data-feather="clipboard"></span><span class="text-body-highlight flex-1">Assigned Projects</span><span class="fa-solid fa-chevron-right fs-11"></span></a></li>
-                                <li class="nav-item"><a class="nav-link px-3 d-flex flex-between-center" href="#!"> <span class="me-2 text-body" data-feather="pie-chart"></span><span class="text-body-highlight flex-1">View activiy</span><span class="fa-solid fa-chevron-right fs-11"></span></a></li>
-                              </ul>
                             </div>
                             <div class="p-3 d-flex justify-content-between"><a class="btn btn-link p-0 text-decoration-none" href="#!">Details </a><a class="btn btn-link p-0 text-decoration-none text-danger" href="#!">Unassign </a></div>
                           </div>
                         </div>
+                        @endforeach
                         <button class="btn btn-sm btn-phoenix-secondary btn-circle"><span class="fa-solid fa-plus"></span></button>
                       </div>
                     </div>
                     <div class="mb-5">
-                      <h6 class="text-body-secondary mb-2">Labels</h6>
-                      <div class="d-flex align-items-center"><span class="badge badge-phoenix badge-phoenix-info fs-10 me-2">INFO</span><span class="badge badge-phoenix badge-phoenix-warning fs-10 me-2">URGENT</span><span class="badge badge-phoenix badge-phoenix-success fs-10 me-2">DONE</span><a class="text-body fw-bolder fs-9 lh-1 text-decoration-none" href="#!"> <span class="fa-solid fa-plus me-1"></span>Add another</a></div>
+                      <h6 class="text-body-secondary mb-2">Priority Status</h6>
+                      <div class="d-flex align-items-center">
+                        <span class="badge badge-phoenix badge-phoenix-info fs-10 me-2" style="background-color: {{ $task->priority->color }}; color: white;">{{ $task->priority->priority_name }}</span>
+                      </div>
                     </div>
                     <div class="mb-6">
                       <div class="d-flex align-items-center mb-2">
@@ -229,7 +85,7 @@
                       <p class="text-body-highlight">{{ $task->task_description }}</p>
                     </div>
                     <div class="bg-body-highlight rounded-2 p-4 mb-3">
-                      <div class="row justify-contnet-between border-bottom border-translucent g-0 gy-2 pb-3">
+                      {{-- <div class="row justify-contnet-between border-bottom border-translucent g-0 gy-2 pb-3">
                         <div class="col-12 col-sm">
                           <p class="fs-9 text-body-secondary mb-2"><a class="fw-semibold" href="#!">Anthony Van Dyck </a>uploaded a file </p><img class="rounded-2 mb-2" src="../../assets/img/generic/42.png" alt="" width="220" />
                           <p class="text-body-highlight fw-semibold fs-9 mb-0">Fruit blast</p>
@@ -237,16 +93,16 @@
                         <div class="col-12 col-sm-auto">
                           <p class="text-body-secondary fw-semibold fs-10 mb-0">Oct 3 at 4:38 pm</p>
                         </div>
-                      </div>
+                      </div> --}}
                       <div class="row justify-contnet-between border-bottom border-translucent g-0 gy-1 py-3 align-items-center">
                         <div class="col-12 col-sm">
-                          <p class="fs-9 text-body-secondary mb-0"><span class="text-body-highlight fw-semibold me-1">You</span>created this task</p>
+                          <p class="fs-9 text-body-secondary mb-0"><span class="text-body-highlight fw-semibold me-1">{{ $task->user->name == Auth::user()->name ? 'You' : $task->user->name }}</span>created this task</p>
                         </div>
                         <div class="col-12 col-sm-auto">
-                          <p class="text-body-secondary fw-semibold fs-10 mb-0">Oct 4 at 12:18 pm</p>
+                          <p class="text-body-secondary fw-semibold fs-10 mb-0">{{ $task->created_at->format('jS M, g:i A') }}</p>
                         </div>
                       </div>
-                      <div class="row justify-contnet-between border-bottom border-translucent g-0 gy-1 py-3 align-items-center">
+                      {{-- <div class="row justify-contnet-between border-bottom border-translucent g-0 gy-1 py-3 align-items-center">
                         <div class="col-12 col-sm">
                           <p class="fs-9 text-body-secondary mb-1"><a class="fw-semibold" href="#!">Kazimir Malevich </a>added a subtask</p>
                           <div class="d-flex">
@@ -257,36 +113,39 @@
                         <div class="col-12 col-sm-auto">
                           <p class="text-body-secondary fw-semibold fs-10 mb-0">Oct 5 at 9:59 am</p>
                         </div>
-                      </div>
+                      </div> --}}
+                      @foreach($task->comments as $comment)
                       <div class="row justify-contnet-between gx-2 align-items-center pt-3">
                         <div class="col col-auto">
                           <div class="avatar avatar-m status-online ">
-                            <img class="rounded-circle " src="../../assets/img//team/30.webp" alt="" />
+                            <img class="rounded-circle " src="../../assets/img//team/34.webp" alt="" />
 
                           </div>
                         </div>
                         <div class="col col-auto flex-1">
-                          <p class="fs-9 text-body-secondary mb-0"><a class="fw-semibold" href="#!">Peter Paul Rubens </a>commented</p>
+                          <p class="fs-9 text-body-secondary mb-0"><a class="fw-semibold" href="#!">{{ $comment->user->name == Auth::user()->name ? 'You' : $comment->user->name }}</a> commented</p>
                         </div>
                         <div class="col-12 col-sm-auto order-1 order-sm-0">
-                          <p class="text-body-secondary fw-semibold fs-10 mb-0">Oct 5 at 9:59 am</p>
+                          <p class="text-body-secondary fw-semibold fs-10 mb-0">{{ $comment->created_at->format('jS M, g:i A') }}</p>
                         </div>
                         <div class="col-sm-11">
-                          <p class="text-body fs-9 mb-0 ms-6">Great job on the Phoenix template! The overall design and layout are visually appealing and user-friendly.</p>
+                          <p class="text-body fs-9 mb-0 ms-6">{{ $comment->comment_text }}</p>
                         </div>
                       </div>
+                      @endforeach
                     </div>
-                    <textarea class="form-control form-control mb-3" rows="3" placeholder="Add comment"></textarea>
+                    <input type="text" value="{{ $task->id }}" class="d-none" id="task_id" />
+                    <textarea class="form-control form-control mb-3" rows="3" id="comment" placeholder="Add comment"></textarea>
                     <div class="d-flex flex-between-center pb-3 border-bottom border-translucent mb-6">
-                      <div class="d-flex">
+                      {{-- <div class="d-flex">
                         <button class="btn btn-sm ps-0 pe-2 py-0"><span class="fa-solid fa-image fs-8"></span></button>
                         <button class="btn btn-sm px-2 py-0"><span class="fa-solid fa-calendar-days fs-8"></span></button>
                         <button class="btn btn-sm px-2 py-0"><span class="fa-solid fa-location-dot fs-8"></span></button>
                         <button class="btn btn-sm px-2 py-0"><span class="fa-solid fa-tag fs-8"></span></button>
-                      </div>
-                      <button class="btn btn-sm btn-primary px-6">Comment</button>
+                      </div> --}}
+                      <button class="btn btn-sm btn-primary px-6" id="add-comment">Comment</button>
                     </div>
-                    <div class="mb-6">
+                    {{-- <div class="mb-6">
                       <div class="mb-7">
                         <h4 class="mb-4">To do list <span class="text-body-tertiary fw-normal fs-6">(23)</span></h4>
                         <div class="row align-items-center g-0 justify-content-between mb-3">
@@ -459,48 +318,37 @@
                           </div>
                         </div><a class="fw-bold fs-9 mt-4" href="#!"><span class="fas fa-plus me-1"></span>Add new task</a>
                       </div>
-                    </div>
+                    </div> --}}
                     <h4 class="mb-3">Files</h4>
                     <div class="border-top pt-3 pb-4">
                       <div class="me-n3">
                         <div class="d-flex flex-between-center">
                           <div class="d-flex mb-1"><span class="fa-solid fa-image me-2 text-body-tertiary fs-9"></span>
-                            <p class="text-body-highlight mb-0 lh-1">Silly_sight_1.png</p>
+                            @if ($task->file_name)
+                              <a href="{{ asset('storage/attachments/' . $task->file_name) }}" download="{{ $task->file_name }}" class="text-body-highlight mb-0 lh-1 d-inline-block">{{ $task->file_name }}</a>
+                            @else
+                              <span class="text-danger">No File Attachments.</span>
+                            @endif
                           </div>
                           <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h"></span></button>
                           <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item" href="#!">Edit</a><a class="dropdown-item text-danger" href="#!">Delete</a><a class="dropdown-item" href="#!">Download</a><a class="dropdown-item" href="#!">Report abuse</a></div>
                         </div>
-                        <p class="fs-9 text-body-tertiary mb-2"><span>768 kb</span><span class="text-body-quaternary mx-1">| </span><a href="#!">Shantinan Mekalan </a><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap">21st Dec, 12:56 PM</span></p><img class="rounded-2" src="../../assets/img/generic/40.png" alt="" />
+                        <p class="fs-9 text-body-tertiary mb-2"><span class="text-body-quaternary mx-1"></span><a href="#!">{{ $task->user->name }}</a><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap">{{ $task->created_at->format('jS M, g:i A') }}</span></p>
                       </div>
                     </div>
-                    <div class="border-top py-3">
-                      <div class="me-n3">
-                        <div class="d-flex flex-between-center">
-                          <div class="d-flex mb-1"><span class="fa-solid fa-image me-2 text-body-tertiary fs-9"></span>
-                            <p class="text-body-highlight mb-0 lh-1">Silly_sight_1.png</p>
-                          </div>
-                          <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h"></span></button>
-                          <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item" href="#!">Edit</a><a class="dropdown-item text-danger" href="#!">Delete</a><a class="dropdown-item" href="#!">Download</a><a class="dropdown-item" href="#!">Report abuse</a></div>
-                        </div>
-                        <p class="fs-9 text-body-tertiary mb-1"><span>12.8 mb</span><span class="text-body-quaternary mx-1">| </span><a href="#!">Yves Tanguy </a><span class="text-body-quaternary mx-1">| </span><span class="text-nowrap">19th Dec, 08:56 PM</span></p>
-                      </div>
+                    <div class="d-flex justify-content-end">
+                      <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">
+                          <span class="fa-solid fa-trash me-1"></span>Delete
+                        </button>
+                      </form>
                     </div>
-                    <div class="border-top border-bottom py-3 mb-3">
-                      <div class="me-n3">
-                        <div class="d-flex flex-between-center">
-                          <div class="d-flex align-items-center mb-1"><span class="fa-solid fa-file-lines me-2 fs-9 text-body-tertiary"></span>
-                            <p class="text-body-highlight mb-0 lh-1">Project.txt</p>
-                          </div>
-                          <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h"></span></button>
-                          <div class="dropdown-menu dropdown-menu-end py-2"><a class="dropdown-item" href="#!">Edit</a><a class="dropdown-item text-danger" href="#!">Delete</a><a class="dropdown-item" href="#!">Download</a><a class="dropdown-item" href="#!">Report abuse</a></div>
-                        </div>
-                        <p class="fs-9 text-body-tertiary mb-1"><span>123 kb</span><span class="text-body-quaternary mx-1">|</span><a href="#!">Shantinan Mekalan</a><span class="text-body-quaternary mx-1">|</span><span class="text-nowrap">12th Dec, 12:56 PM</span></p>
-                      </div>
-                    </div>
-                    <label class="btn btn-link p-0" for="customFile"><span class="fas fa-plus me-1"></span>Add file(s)</label>
-                    <input class="d-none" id="customFile" type="file" />
+                    {{-- <label class="btn btn-link p-0" for="customFile"><span class="fas fa-plus me-1"></span>Add file(s)</label>
+                    <input class="d-none" id="customFile" type="file" /> --}}
                   </div>
-                  <div class="col-12 col-md-3">
+                  {{-- <div class="col-12 col-md-3">
                     <h5 class="text-body-secondary mb-3">Add to card</h5>
                     <div class="mb-6">
                       <button class="btn btn-sm btn-subtle-secondary rounded-3 mb-2 d-flex align-items-center w-100"><span class="me-2 fa-solid fa-user-plus"></span>Assignee</button>
@@ -517,7 +365,7 @@
                       <button class="btn btn-sm btn-subtle-secondary rounded-3 mb-2 d-flex align-items-center w-100"><span class="me-2 fa-solid fa-box-archive"></span>Archive</button>
                       <button class="btn btn-sm btn-subtle-secondary rounded-3 mb-2 d-flex align-items-center w-100"><span class="me-2 fa-solid fa-share-nodes"></span>Share</button>
                     </div>
-                  </div>
+                  </div> --}}
                 </div>
               </div>
             </div>

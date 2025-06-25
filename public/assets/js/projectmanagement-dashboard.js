@@ -125,16 +125,35 @@
     const issuesDiscoveredChartEl = document.querySelector('.echart-issue-chart');
 
     if (issuesDiscoveredChartEl) {
+      
       const userOptions = getData(issuesDiscoveredChartEl, 'echarts');
       const chart = window.echarts.init(issuesDiscoveredChartEl);
 
+      // Fetch task status counts via AJAX and update the chart data
+      fetch('/dashboard/task-status-counts')
+        .then(response => response.json())
+        .then(responseData => {
+          console.log('Task status counts fetched:', responseData);
+          // After fetching, update the chart with new data
+          chart.setOption({
+        series: [{
+          data: responseData
+        }]
+          });
+        })
+        .catch(error => {
+          // Optionally handle error
+          console.error('Failed to fetch task status counts:', error);
+        });
+
       const getDefaultOptions = () => ({
         color: [
-          toggleColor(getColor('info-light'), getColor('info-dark')),
-          toggleColor(getColor('warning-light'), getColor('warning-dark')),
-          toggleColor(getColor('danger-light'), getColor('danger-dark')),
-          toggleColor(getColor('success-light'), getColor('success-dark')),
-          getColor('primary')
+          toggleColor('#ffc107', '#ffc107'),
+          toggleColor('#6c757d', '#6c757d'),
+          toggleColor('#17a2b8', '#17a2b8'),
+          toggleColor('#28a745', '#28a745'),
+          toggleColor('#ff0000', '#ff0000'),
+          toggleColor('maroon', 'maroon'),
         ],
         tooltip: {
           trigger: 'item',
@@ -146,49 +165,36 @@
 
         series: [
           {
-            name: 'Tasks assigned to me',
-            type: 'pie',
-            radius: ['48%', '90%'],
-            startAngle: 30,
-            avoidLabelOverlap: false,
-            // label: {
-            //   show: false,
-            //   position: 'center'
-            // },
-
-            label: {
-              show: false,
-              position: 'center',
-              formatter: '{x|{d}%} \n {y|{b}}',
-              rich: {
-                x: {
-                  fontSize: 31.25,
-                  fontWeight: 800,
-                  color: getColor('tertiary-color'),
-                  padding: [0, 0, 5, 15]
-                },
-                y: {
-                  fontSize: 12.8,
-                  color: getColor('tertiary-color'),
-                  fontWeight: 600
-                }
-              }
+        name: 'Tasks assigned to me',
+        type: 'pie',
+        radius: ['48%', '90%'],
+        startAngle: 30,
+        avoidLabelOverlap: false,
+        label: {
+          show: false,
+          position: 'center',
+          formatter: '{x|{d}%} \n {y|{b}}',
+          rich: {
+            x: {
+          fontSize: 31.25,
+          fontWeight: 800,
+          padding: [0, 0, 5, 15]
             },
-            emphasis: {
-              label: {
-                show: true
-              }
-            },
-            labelLine: {
-              show: false
-            },
-            data: [
-              { value: 78, name: 'Product design' },
-              { value: 63, name: 'Development' },
-              { value: 56, name: 'QA & Testing' },
-              { value: 36, name: 'Customer queries' },
-              { value: 24, name: 'R & D' }
-            ]
+            y: {
+          fontSize: 12.8,
+          fontWeight: 600
+            }
+          }
+        },
+        emphasis: {
+          label: {
+            show: true
+          }
+        },
+        labelLine: {
+          show: false
+        },
+        data: [] // initially empty, will be set after fetch
           }
         ],
         grid: {

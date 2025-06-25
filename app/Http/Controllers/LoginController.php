@@ -53,9 +53,22 @@ class LoginController extends Controller
         ]);
 
         Auth::login($user);
-        $token = $user->createToken('API TOKEN')->plainTextToken;
+        $token = $user->createToken($user->email)->plainTextToken;
 
         return redirect()->intended('dashboard');
+    }
+
+    public function getSanctumToken(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        $token = $user->createToken($user->email)->plainTextToken;
+
+        return response()->json(['token' => $token]);
     }
 
     public function logout()

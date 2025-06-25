@@ -19,6 +19,7 @@ class Task extends Model
         'category_id',
         'status_id',
         'created_by',
+        'updated_by'
     ];
 
     public function category()
@@ -45,5 +46,10 @@ class Task extends Model
     public function assignTasks()
     {
         return $this->hasMany(AssignTask::class, 'task_id', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comments::class, 'task_id', 'id');
     }
 }
