@@ -28,7 +28,8 @@ class LoginController extends Controller
         $request->session()->regenerate();
         $token = $user->createToken('API TOKEN')->plainTextToken;
 
-        return redirect()->intended('dashboard');
+        // return redirect()->intended('dashboard');
+        return app()->call('App\Http\Controllers\DashboardController@index');
     }
 
     public function register(Request $request)

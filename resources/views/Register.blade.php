@@ -133,9 +133,9 @@
                           </div> --}}
                           {{-- <div class="col-auto"><a class="fs-9 fw-semibold" href="../../../pages/authentication/card/forgot-password.html">Forgot Password?</a></div> --}}
                         </div>
-                        <button class="btn btn-primary w-100 mb-3">Sign In</button>
+                        <button class="btn btn-primary w-100 mb-3">Sign Up</button>
                       </form>
-                      <div class="text-center"><a class="fs-9 fw-bold" href="register">Create an account</a></div>
+                      <div class="text-center"><a class="fs-9 fw-bold" href="/">Already have an account? Sign In</a></div>
                     </div>
                   </div>
                 </div>
